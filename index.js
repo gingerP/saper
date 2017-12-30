@@ -10,7 +10,10 @@
         [-1, 1], [0, 1], [1, 1]
     ];
     var isGameFailed = false;
+    var clickActions = {bomb: 'bomb', flag: 'flag'};
+    var clickAction = 'bomb';
     var scoreLabel = document.getElementById('saper-game-score');
+    var actionButton = document.getElementById('saper-toolbar-action');
     var gameScore = 0;
 
     var flag = '\
@@ -135,13 +138,22 @@
         var pane = document.getElementById('saper-game-pane');
         var reloadButton = document.getElementById('saper-toolbar-reload');
         pane.addEventListener('click', function (event) {
+            var target;
             if (isGameFailed) {
                 return;
             }
-            var target = searchCell(event.target);
-            if (target && !hasClass(target, 'cell-open')) {
-                var pos = getPosForCellId(target.id);
-                openCell(gameData, pos[0], pos[1], true, true);
+            if (isBombClickAction()) {
+                target = searchCell(event.target);
+                if (target && !hasClass(target, 'cell-open')) {
+                    var pos = getPosForCellId(target.id);
+                    openCell(gameData, pos[0], pos[1], true, true);
+                }
+            } else if (isFlagClickAction()) {
+                target = searchCell(event.target);
+                if (target) {
+                    setFlag(target, getItemForCellId(target.id));
+                    event.preventDefault();
+                }
             }
         });
         pane.addEventListener('contextmenu', function (event) {
@@ -158,6 +170,10 @@
            if (!isGameFailed && confirm('Are you sure you want to start over?') || isGameFailed) {
                reload();
            }
+        });
+        actionButton.addEventListener('click', function() {
+            var action = clickAction === clickActions.flag ? clickActions.bomb : clickActions.flag;
+            setAction(action);
         });
     }
 
@@ -187,15 +203,29 @@
         if (!regexp.test(target.className)) {
             target.className += ' ' + className;
         }
+        normalizeClassName(target);
     }
 
     function removeClass(target, className) {
         var regexp = new RegExp('( |^)' + className + '( |$)', 'g');
         target.className = target.className.replace(regexp, ' ');
+        normalizeClassName(target);
     }
 
     function hasClass(target, className) {
         return target.className.indexOf(className) >= 0;
+    }
+
+    function normalizeClassName(target) {
+        var parts = target.className.split(' ');
+        var result = '';
+        while(parts.length) {
+            var part = parts.shift();
+            if (part) {
+                result += part + ' ';
+            }
+        }
+        target.className = result;
     }
 
     function openLake(items, data) {
@@ -308,6 +338,25 @@
             return null;
         }
         return searchCell(target.parentElement);
+    }
+
+    function setAction(action) {
+        clickAction = action;
+        if (action === clickActions.flag) {
+            removeClass(actionButton, 'click-action-bomb-selected');
+            addClass(actionButton, 'click-action-flag-selected')
+        } else {
+            removeClass(actionButton, 'click-action-flag-selected');
+            addClass(actionButton, 'click-action-bomb-selected')
+        }
+    }
+
+    function isBombClickAction() {
+        return clickAction === clickActions.bomb;
+    }
+
+    function isFlagClickAction() {
+        return clickAction === clickActions.flag;
     }
 
     reload();

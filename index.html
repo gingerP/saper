@@ -105,6 +105,41 @@
             color: #414141;
             font-family: Helvetica;
         }
+        .click-action-flag,
+        .click-action-bomb {
+            float: left;
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        #saper-toolbar-action {
+            float: right;
+            margin: 10px;
+            width: 80px;
+            padding: 0;
+        }
+        #saper-toolbar-reload {
+
+        }
+        #saper-toolbar-action.click-action-flag-selected .click-action-bomb {
+            background-color: gray;
+        }
+        #saper-toolbar-action.click-action-flag-selected .click-action-bomb svg {
+            fill: #c5c5c5;
+        }
+        #saper-toolbar-action.click-action-bomb-selected .click-action-flag {
+            background-color: gray;
+        }
+        #saper-toolbar-action.click-action-bomb-selected .click-action-flag svg {
+            fill: #c5c5c5;
+        }
+        #saper-toolbar-action.click-action-flag-selected .click-action-flag {
+
+        }
+        #saper-toolbar-action.click-action-bomb-selected .click-action-bomb {
+
+        }
     </style>
     <meta name="description" content="на augustova.by вы найдете спецодежду для вашей работы, а юридические лица смогут приобрести лакокрасочные материалы, чистящие и моющие ср-ва, канцтовары, строительный инструмент и другое ">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -122,11 +157,43 @@
                 <path d="M0 0h24v24H0z" fill="none"/>
             </svg>
         </button>
-        <button class="saper-button saper-toolbar-action-type" name="action-type">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none"/>
-                <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm7-7H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-1.75 9c0 .23-.02.46-.05.68l1.48 1.16c.13.11.17.3.08.45l-1.4 2.42c-.09.15-.27.21-.43.15l-1.74-.7c-.36.28-.76.51-1.18.69l-.26 1.85c-.03.17-.18.3-.35.3h-2.8c-.17 0-.32-.13-.35-.29l-.26-1.85c-.43-.18-.82-.41-1.18-.69l-1.74.7c-.16.06-.34 0-.43-.15l-1.4-2.42c-.09-.15-.05-.34.08-.45l1.48-1.16c-.03-.23-.05-.46-.05-.69 0-.23.02-.46.05-.68l-1.48-1.16c-.13-.11-.17-.3-.08-.45l1.4-2.42c.09-.15.27-.21.43-.15l1.74.7c.36-.28.76-.51 1.18-.69l.26-1.85c.03-.17.18-.3.35-.3h2.8c.17 0 .32.13.35.29l.26 1.85c.43.18.82.41 1.18.69l1.74-.7c.16-.06.34 0 .43.15l1.4 2.42c.09.15.05.34-.08.45l-1.48 1.16c.03.23.05.46.05.69z"/>
-            </svg>
+        <button id="saper-toolbar-action" class="saper-button saper-toolbar-action-type click-action-bomb-selected" name="action-type">
+            <div class="click-action-flag">
+                <svg fill="red" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/>
+                </svg>
+            </div>
+            <div class="click-action-bomb">
+                <svg
+                        xmlns:dc="http://purl.org/dc/elements/1.1/"
+                        xmlns:cc="http://creativecommons.org/ns#"
+                        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                        xmlns:svg="http://www.w3.org/2000/svg"
+                        xmlns="http://www.w3.org/2000/svg"
+                        version="1.1"
+                        viewBox="0 0 24 24"
+                        enable-background="new 0 0 512 512"
+                        id="svg3773"
+                        width="24"
+                        height="24">
+                    <g id="g3771"
+                       transform="matrix(0.046875,0,0,0.046875,1.3212454e-4,-0.01161278)">
+                        <path d="m 411.313,123.313 c 6.25,-6.25 6.25,-16.375 0,-22.625 -6.25,-6.25 -16.375,-6.25 -22.625,0 l -32,32 -9.375,9.375 -20.688,-20.688 c -12.484,-12.5 -32.766,-12.5 -45.25,0 l -16,16 c -1.261,1.261 -2.304,2.648 -3.31,4.051 C 240.326,132.865 216.741,128 192,128 86.133,128 0,214.133 0,320 c 0,105.867 86.133,192 192,192 105.867,0 192,-86.133 192,-192 0,-24.741 -4.864,-48.327 -13.426,-70.065 1.402,-1.007 2.79,-2.049 4.051,-3.31 l 16,-16 c 12.5,-12.492 12.5,-32.758 0,-45.25 l -20.688,-20.688 9.375,-9.375 z M 192,224 c -52.938,0 -96,43.063 -96,96 0,8.836 -7.164,16 -16,16 -8.836,0 -16,-7.164 -16,-16 0,-70.578 57.422,-128 128,-128 8.836,0 16,7.164 16,16 0,8.836 -7.164,16 -16,16 z"
+                              id="path3759"/>
+                        <path d="m 459.02,148.98 c -6.25,-6.25 -16.375,-6.25 -22.625,0 -6.25,6.25 -6.25,16.375 0,22.625 l 16,16 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 6.25,-6.25 6.25,-16.375 0,-22.625 z"
+                              id="path3761"/>
+                        <path d="m 340.395,75.605 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 6.25,-6.25 6.25,-16.375 0,-22.625 l -16,-16 c -6.25,-6.25 -16.375,-6.25 -22.625,0 -6.25,6.25 -6.25,16.375 0,22.625 z"
+                              id="path3763"/>
+                        <path d="m 400,64 c 8.844,0 16,-7.164 16,-16 V 16 C 416,7.164 408.844,0 400,0 391.156,0 384,7.164 384,16 v 32 c 0,8.836 7.156,16 16,16 z"
+                              id="path3765"/>
+                        <path d="m 496,96.586 h -32 c -8.844,0 -16,7.164 -16,16 0,8.836 7.156,16 16,16 h 32 c 8.844,0 16,-7.164 16,-16 0,-8.836 -7.156,-16 -16,-16 z"
+                              id="path3767"/>
+                        <path d="m 436.98,75.605 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 l 32,-32 c 6.25,-6.25 6.25,-16.375 0,-22.625 -6.25,-6.25 -16.375,-6.25 -22.625,0 l -32,32 c -6.251,6.25 -6.251,16.375 -10e-4,22.625 z" id="path3769"/>
+                    </g>
+                </svg>
+
+            </div>
         </button>
     </div>
     <script src="index.js"></script>
