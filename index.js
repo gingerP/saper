@@ -116,19 +116,23 @@
             if (event.target.tagName === 'TD' && event.target.className.indexOf('cell-open') < 0) {
                 var match = /cell-(\d*)-(\d*)/g.exec(event.target.id);
                 var pos = [+match[1], +match[2]];
-                openCell(data, pos[0], pos[1]);
+                openCell(data, pos[0], pos[1], true);
             }
         })
     }
 
-    function openCell(data, x, y) {
+    function openCell(data, x, y, shouldOpenAround) {
         var item = data[x][y];
         var cell = document.getElementById('cell-' + x + '-' + y);
+        cell.className = cell.className.replace(/( |^)cell-closed( |$)/g, ' ');
+        if (!/( |^)cell-opened( |$)/g.test(cell.className)) {
+            cell.className += ' cell-opened';
+        }
         if (item && item.isBomb) {
             cell.innerHTML = 'x';
         } else if (item && !item.isBomb) {
             cell.innerHTML = item.value;
-            if (item.value === 0) {
+            if (shouldOpenAround && item.value === 0) {
                 var blankLake = getBlankLake(data, x, y);
                 openLake(blankLake, data);
             }
@@ -138,13 +142,7 @@
     function openLake(items, data) {
         for(var index = 0; index < items.length; index++) {
             var item = items[index];
-            var dataItem = data[item[0]][item[1]];
-            var cell = document.getElementById('cell-' + item[0] + '-' + item[1]);
-            if (dataItem.isBomb) {
-                cell.innerHTML = 'x';
-            } else {
-                cell.innerHTML = dataItem.value;
-            }
+            openCell(data, item[0], item[1], false);
         }
     }
 
