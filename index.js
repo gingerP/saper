@@ -10,6 +10,8 @@
         [-1, 1], [0, 1], [1, 1]
     ];
     var isGameFailed = false;
+    var scoreLabel = document.getElementById('saper-game-score');
+    var gameScore = 0;
 
     var flag = '\
         <svg fill="red" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">\
@@ -63,7 +65,7 @@
         for (xIndex = 0; xIndex < width; xIndex++) {
             row = [];
             for (yIndex = 0; yIndex < height; yIndex++) {
-                var isBomb = Boolean(Math.round(Math.random() - 0.3));
+                var isBomb = Boolean(Math.round(Math.abs(Math.random() - 0.3)));
                 row.push({
                     isBomb: isBomb,
                     isOpened: false,
@@ -129,19 +131,26 @@
         };
     }
 
-    function initEvents(data) {
+    function initEvents() {
         var pane = document.getElementById('saper-game-pane');
         var reloadButton = document.getElementById('saper-toolbar-reload');
         pane.addEventListener('click', function (event) {
-            if (event.target.tagName === 'TD' && !hasClass(event.target, 'cell-open')) {
-                var match = /cell-(\d*)-(\d*)/g.exec(event.target.id);
-                var pos = [+match[1], +match[2]];
-                openCell(data, pos[0], pos[1], true, true);
+            if (isGameFailed) {
+                return;
+            }
+            var target = searchCell(event.target);
+            if (target && !hasClass(target, 'cell-open')) {
+                var pos = getPosForCellId(target.id);
+                openCell(gameData, pos[0], pos[1], true, true);
             }
         });
         pane.addEventListener('contextmenu', function (event) {
-            if (event.target.tagName === 'TD') {
-                setFlag(event.target);
+            if (isGameFailed) {
+                return;
+            }
+            var target = searchCell(event.target);
+            if (target) {
+                setFlag(target, getItemForCellId(target.id));
                 event.preventDefault();
             }
         });
@@ -237,8 +246,14 @@
         return result;
     }
 
-    function setFlag(target) {
-        target.innerHTML = flag;
+    function setFlag(target, item) {
+        item.isFlag = !item.isFlag;
+        target.innerHTML = item.isFlag ? flag : '';
+        if (item.isFlag) {
+            updateScore(++gameScore);
+        } else {
+            updateScore(--gameScore);
+        }
     }
 
     function openPane(data) {
@@ -255,10 +270,44 @@
         }
     }
 
+    function getItemForCellId(id) {
+        var match = /cell-(\d*)-(\d*)/g.exec(id);
+        if (match.length >= 3) {
+            var pos = [+match[1], +match[2]];
+            return gameData[pos[0]][pos[1]];
+        }
+        return null;
+    }
+
+    function getPosForCellId(id) {
+        var match = /cell-(\d*)-(\d*)/g.exec(id);
+        if (match.length >= 3) {
+            return [+match[1], +match[2]];
+        }
+        return null;
+    }
+
+    function updateScore(score) {
+        var scoreSize = ('' + score).length;
+        scoreLabel.innerHTML = (new Array(4 - scoreSize + 1)).join('0') + score;
+    }
+
     function reload() {
         isGameFailed = false;
+        gameScore = 0;
         gameData = initializeData(xSize, ySize);
         renderGamePane(gameData);
+        updateScore(gameScore);
+    }
+
+    function searchCell(target) {
+        if (target.tagName === 'TD' && hasClass(target, 'game-cell')) {
+            return target;
+        }
+        if (target.tagName === 'BODY') {
+            return null;
+        }
+        return searchCell(target.parentElement);
     }
 
     reload();
