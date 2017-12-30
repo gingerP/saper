@@ -35,9 +35,8 @@
         #saper-game-pane .game-cell {
             width: 20px;
             height: 20px;
-            border: 1px solid #d0cfcf;
+            border: 1px solid #adadad;
             text-align: center;
-            line-height: 20px;
             padding: 0;
             font-family: Helvetica;
             font-size: 0.9em;
@@ -53,6 +52,47 @@
             overflow: hidden;
             cursor: pointer;
         }
+
+        #saper-game-pane table td.cell-closed {
+            background-color: #c5c5c5;
+            box-shadow: inset 0px 0px 0px 2px #929292;
+        }
+
+        .cell-value-1 {
+            color: blue;
+            font-weight: bold;
+        }
+        .cell-value-2 {
+            font-weight: bold;
+            color: green;
+        }
+        .cell-value-3 {
+            font-weight: bold;
+            color: red;
+        }
+        .cell-value-4 {
+            font-weight: bold;
+            color: #29315a;
+        }
+        .cell-value-5 {
+            font-weight: bold;
+            color: #a9000d;
+        }
+        .cell-value-6 {
+            font-weight: bold;
+            color: #d3b813;
+        }
+        .cell-value-7 {
+            font-weight: bold;
+            color: #b455a7;
+        }
+        .cell-value-8 {
+            font-weight: bold;
+            color: #d37b1e;
+        }
+        .cell-first-bomb svg {
+            fill: red;
+        }
     </style>
     <meta name="description" content="на augustova.by вы найдете спецодежду для вашей работы, а юридические лица смогут приобрести лакокрасочные материалы, чистящие и моющие ср-ва, канцтовары, строительный инструмент и другое ">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -63,7 +103,7 @@
 <body>
     <div id="saper-game-pane" class="saper-game-pane"></div>
     <div class="saper-toolbar">
-        <button class="saper-button saper-toolbar-reload" name="reload">
+        <button id="saper-toolbar-reload" class="saper-button saper-toolbar-reload" name="reload">
             <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
                 <path d="M0 0h24v24H0z" fill="none"/>
