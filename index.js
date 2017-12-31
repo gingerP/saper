@@ -139,11 +139,16 @@
         var reloadButton = document.getElementById('saper-toolbar-reload');
         pane.addEventListener('click', function (event) {
             var target;
+            var item;
             if (isGameFailed) {
                 return;
             }
             if (isBombClickAction()) {
                 target = searchCell(event.target);
+                item = getItemForCellId(target.id);
+                if (item.isFlag) {
+                    updateScore(--gameScore);
+                }
                 if (target && !hasClass(target, 'cell-open')) {
                     var pos = getPosForCellId(target.id);
                     openCell(gameData, pos[0], pos[1], true, true);
