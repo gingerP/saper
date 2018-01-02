@@ -2,19 +2,23 @@
     'use strict';
 
     var gameData = [];
-    var xSize = 50;
-    var ySize = 50;
+    var cellSize = 30;
+    var xSize = 30;
+    var ySize = 30;
     var shifts = [
         [-1, -1], [0, -1], [1, -1],
         [-1, 0], [1, 0],
         [-1, 1], [0, 1], [1, 1]
     ];
+    var isGameStarted = false;
     var isGameFailed = false;
     var clickActions = {bomb: 'bomb', flag: 'flag'};
     var clickAction = 'bomb';
-    var scoreLabel = document.getElementById('saper-game-score');
+    var scoreLabel = document.getElementById('saper-game-score-value');
     var actionButton = document.getElementById('saper-toolbar-action');
     var gameScore = 0;
+    var gameLevel = 1;
+    var maxGameLevel = 4;
 
     var flag = '\
         <svg fill="red" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">\
@@ -32,6 +36,7 @@
         <path d="m 436.98,75.605 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 l 32,-32 c 6.25,-6.25 6.25,-16.375 0,-22.625 -6.25,-6.25 -16.375,-6.25 -22.625,0 l -32,32 c -6.251,6.25 -6.251,16.375 -10e-4,22.625 z" id="path3769"/>\
         </g>\
         </svg>';
+    var bomb = '<img src="saper-bomb-common-15.png"/>';
 
     function renderGamePane(data) {
         var xIndex = 0;
@@ -39,7 +44,7 @@
         var row = '';
         var item;
         var td = '';
-        var table = '<table style="width: ' + (data.length * 20) + 'px"><colgroup>';
+        var table = '<table style="width: ' + (data.length * cellSize) + 'px"><colgroup>';
         for (; xIndex < data.length; xIndex++) {
             table += '<col width="20px"/>';
         }
@@ -64,11 +69,12 @@
         var row;
         var cell;
         var data = [];
+        var gameLevelMultiplier = (maxGameLevel - gameLevel) / 10;
 
         for (xIndex = 0; xIndex < width; xIndex++) {
             row = [];
             for (yIndex = 0; yIndex < height; yIndex++) {
-                var isBomb = Boolean(Math.round(Math.abs(Math.random() - 0.3)));
+                var isBomb = Boolean(Math.round(Math.abs(Math.random() - gameLevelMultiplier)));
                 row.push({
                     isBomb: isBomb,
                     isOpened: false,
@@ -137,6 +143,8 @@
     function initEvents() {
         var pane = document.getElementById('saper-game-pane');
         var reloadButton = document.getElementById('saper-toolbar-reload');
+        var levelSelect = document.getElementById('game-levels');
+        var sizeSelect = document.getElementById('game-pane-size');
         pane.addEventListener('click', function (event) {
             var target;
             var item;
@@ -144,6 +152,7 @@
                 return;
             }
             if (isBombClickAction()) {
+                isGameStarted = true;
                 target = searchCell(event.target);
                 item = getItemForCellId(target.id);
                 if (item.isFlag) {
@@ -154,6 +163,7 @@
                     openCell(gameData, pos[0], pos[1], true, true);
                 }
             } else if (isFlagClickAction()) {
+                isGameStarted = true;
                 target = searchCell(event.target);
                 if (target) {
                     setFlag(target, getItemForCellId(target.id));
@@ -172,13 +182,46 @@
             }
         });
         reloadButton.addEventListener('click', function() {
-           if (!isGameFailed && confirm('Are you sure you want to start over?') || isGameFailed) {
+           if (isGameStarted && !isGameFailed && confirm('Are you sure you want to start over?')
+               || !isGameStarted
+               || isGameStarted && isGameFailed) {
                reload();
            }
         });
         actionButton.addEventListener('click', function() {
             var action = clickAction === clickActions.flag ? clickActions.bomb : clickActions.flag;
             setAction(action);
+        });
+        levelSelect.addEventListener('change', function() {
+            var level = +this.value;
+            var result = true;
+            if (!isNaN(level)) {
+                if (isGameStarted && !isGameFailed) {
+                    result = confirm('The game will be restarted. Are you sure you want to change level?')
+                }
+                if (result) {
+                    gameLevel = level;
+                    reload();
+                } else {
+                    levelSelect.value = '' + gameLevel;
+                }
+            }
+        });
+        sizeSelect.addEventListener('change', function() {
+            var size = +this.value;
+            var result = true;
+            if (!isNaN(size)) {
+                if (isGameStarted && !isGameFailed) {
+                    result = confirm('The game will be restarted. Are you sure you want to change size?')
+                }
+                if (result) {
+                    xSize = size;
+                    ySize = size;
+                    reload();
+                } else {
+                    sizeSelect.value = '' + xSize;
+                }
+            }
         });
     }
 
@@ -328,6 +371,7 @@
     }
 
     function reload() {
+        isGameStarted = false;
         isGameFailed = false;
         gameScore = 0;
         gameData = initializeData(xSize, ySize);

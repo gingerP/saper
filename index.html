@@ -4,16 +4,22 @@
         body {
             margin: 0;
         }
+        html {
+            touch-action: manipulation;
+        }
+
         .saper-toolbar {
             height: 60px;
             background-color: #17A086;
-            box-shadow: inset 0 2px 2px 0 rgba(0,0,0,0.14);
+            box-shadow: inset 0 2px 2px 0 rgba(0, 0, 0, 0.14);
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
         }
+
         .saper-button {
+            float: left;
             border: none;
             height: 40px;
             width: 40px;
@@ -21,8 +27,9 @@
             margin: 10px 0 10px 10px;
             border-radius: 2px;
             cursor: pointer;
-            box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12);
+            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         }
+
         .saper-button svg {
             fill: #414141;
         }
@@ -32,22 +39,25 @@
             top: 60px;
             margin: 50px 0;
         }
+
         #saper-game-pane .game-cell {
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             border: 1px solid #adadad;
             text-align: center;
             padding: 0;
             font-family: Helvetica;
-            font-size: 0.9em;
+            font-size: 1.3em;
         }
+
         #saper-game-pane table {
             border-collapse: collapse;
             border-spacing: 0;
             margin: 0 auto;
             background-color: #fbfbfb;
-            table-layout:fixed;
+            table-layout: fixed;
         }
+
         #saper-game-pane table td {
             overflow: hidden;
             cursor: pointer;
@@ -58,42 +68,58 @@
             box-shadow: inset 0px 0px 0px 2px #929292;
         }
 
+        #saper-game-pane table td.cell-opened {
+            background-color: #f5f5f5;
+        }
+
         .cell-value-1 {
             color: blue;
             font-weight: bold;
         }
+
         .cell-value-2 {
             font-weight: bold;
             color: green;
         }
+
         .cell-value-3 {
             font-weight: bold;
             color: red;
         }
+
         .cell-value-4 {
             font-weight: bold;
             color: #29315a;
         }
+
         .cell-value-5 {
             font-weight: bold;
             color: #a9000d;
         }
+
         .cell-value-6 {
             font-weight: bold;
             color: #d3b813;
         }
+
         .cell-value-7 {
             font-weight: bold;
             color: #b455a7;
         }
+
         .cell-value-8 {
             font-weight: bold;
             color: #d37b1e;
         }
+
         .cell-first-bomb svg {
             fill: red;
         }
+
         #saper-game-score {
+        }
+
+        #saper-game-score-value {
             width: 80px;
             height: 40px;
             float: left;
@@ -105,6 +131,7 @@
             color: #414141;
             font-family: Helvetica;
         }
+
         .click-action-flag,
         .click-action-bomb {
             float: left;
@@ -113,93 +140,158 @@
             padding: 8px;
             box-sizing: border-box;
         }
+
         #saper-toolbar-action {
             float: right;
             margin: 10px;
             width: 80px;
             padding: 0;
         }
+
         #saper-toolbar-reload {
 
         }
+
         #saper-toolbar-action.click-action-flag-selected .click-action-bomb {
             background-color: gray;
         }
+
         #saper-toolbar-action.click-action-flag-selected .click-action-bomb svg {
             fill: #c5c5c5;
         }
+
         #saper-toolbar-action.click-action-bomb-selected .click-action-flag {
             background-color: gray;
         }
+
         #saper-toolbar-action.click-action-bomb-selected .click-action-flag svg {
             fill: #c5c5c5;
         }
+
         #saper-toolbar-action.click-action-flag-selected .click-action-flag {
 
         }
+
         #saper-toolbar-action.click-action-bomb-selected .click-action-bomb {
 
         }
+
         button:focus,
         input:focus {
             outline: none;
         }
+
+        select.game-levels,
+        select.game-pane-size {
+            display: table;
+            float: left;
+            margin: 10px 0 10px 10px;
+            height: 40px;
+            width: 90px;
+            text-align: center;
+            border: none;
+            font-size: 1.3em;
+            background-color: #ECB14B;
+            border-radius: 2px;
+            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+            color: #414141;        }
+
+        .vertical-delimiter {
+            float: left;
+        }
+        @media(max-width: 960px) {
+            #saper-game-pane {
+                margin: 0 0 50px 0;
+            }
+            #saper-game-score {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                background-color: #17A086;
+                padding: 5px;
+            }
+            #saper-game-score-value {
+                margin: 0 auto;
+                float: none;
+            }
+        }
     </style>
-    <meta name="description" content="на augustova.by вы найдете спецодежду для вашей работы, а юридические лица смогут приобрести лакокрасочные материалы, чистящие и моющие ср-ва, канцтовары, строительный инструмент и другое ">
+    <meta name="description"
+          content="на augustova.by вы найдете спецодежду для вашей работы, а юридические лица смогут приобрести лакокрасочные материалы, чистящие и моющие ср-ва, канцтовары, строительный инструмент и другое ">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <meta name="robots" content="index, follow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 <body>
-    <div id="saper-game-pane" class="saper-game-pane"></div>
-    <div class="saper-toolbar">
-        <div id="saper-game-score"></div>
-        <button id="saper-toolbar-reload" class="saper-button saper-toolbar-reload" name="reload">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
-                <path d="M0 0h24v24H0z" fill="none"/>
-            </svg>
-        </button>
-        <button id="saper-toolbar-action" class="saper-button saper-toolbar-action-type click-action-bomb-selected" name="action-type">
-            <div class="click-action-flag">
-                <svg fill="red" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/>
-                </svg>
-            </div>
-            <div class="click-action-bomb">
-                <svg
-                        xmlns:dc="http://purl.org/dc/elements/1.1/"
-                        xmlns:cc="http://creativecommons.org/ns#"
-                        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                        xmlns:svg="http://www.w3.org/2000/svg"
-                        xmlns="http://www.w3.org/2000/svg"
-                        version="1.1"
-                        viewBox="0 0 24 24"
-                        enable-background="new 0 0 512 512"
-                        id="svg3773"
-                        width="24"
-                        height="24">
-                    <g id="g3771"
-                       transform="matrix(0.046875,0,0,0.046875,1.3212454e-4,-0.01161278)">
-                        <path d="m 411.313,123.313 c 6.25,-6.25 6.25,-16.375 0,-22.625 -6.25,-6.25 -16.375,-6.25 -22.625,0 l -32,32 -9.375,9.375 -20.688,-20.688 c -12.484,-12.5 -32.766,-12.5 -45.25,0 l -16,16 c -1.261,1.261 -2.304,2.648 -3.31,4.051 C 240.326,132.865 216.741,128 192,128 86.133,128 0,214.133 0,320 c 0,105.867 86.133,192 192,192 105.867,0 192,-86.133 192,-192 0,-24.741 -4.864,-48.327 -13.426,-70.065 1.402,-1.007 2.79,-2.049 4.051,-3.31 l 16,-16 c 12.5,-12.492 12.5,-32.758 0,-45.25 l -20.688,-20.688 9.375,-9.375 z M 192,224 c -52.938,0 -96,43.063 -96,96 0,8.836 -7.164,16 -16,16 -8.836,0 -16,-7.164 -16,-16 0,-70.578 57.422,-128 128,-128 8.836,0 16,7.164 16,16 0,8.836 -7.164,16 -16,16 z"
-                              id="path3759"/>
-                        <path d="m 459.02,148.98 c -6.25,-6.25 -16.375,-6.25 -22.625,0 -6.25,6.25 -6.25,16.375 0,22.625 l 16,16 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 6.25,-6.25 6.25,-16.375 0,-22.625 z"
-                              id="path3761"/>
-                        <path d="m 340.395,75.605 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 6.25,-6.25 6.25,-16.375 0,-22.625 l -16,-16 c -6.25,-6.25 -16.375,-6.25 -22.625,0 -6.25,6.25 -6.25,16.375 0,22.625 z"
-                              id="path3763"/>
-                        <path d="m 400,64 c 8.844,0 16,-7.164 16,-16 V 16 C 416,7.164 408.844,0 400,0 391.156,0 384,7.164 384,16 v 32 c 0,8.836 7.156,16 16,16 z"
-                              id="path3765"/>
-                        <path d="m 496,96.586 h -32 c -8.844,0 -16,7.164 -16,16 0,8.836 7.156,16 16,16 h 32 c 8.844,0 16,-7.164 16,-16 0,-8.836 -7.156,-16 -16,-16 z"
-                              id="path3767"/>
-                        <path d="m 436.98,75.605 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 l 32,-32 c 6.25,-6.25 6.25,-16.375 0,-22.625 -6.25,-6.25 -16.375,-6.25 -22.625,0 l -32,32 c -6.251,6.25 -6.251,16.375 -10e-4,22.625 z" id="path3769"/>
-                    </g>
-                </svg>
-
-            </div>
-        </button>
+<div id="saper-game-pane" class="saper-game-pane"></div>
+<div class="saper-toolbar">
+    <button id="saper-toolbar-reload" class="saper-button saper-toolbar-reload" name="reload">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+            <path d="M0 0h24v24H0z" fill="none"/>
+        </svg>
+    </button>
+    <div class="vertical-delimiter"></div>
+    <select id="game-levels" class="game-levels">
+        <option value="1">Level 1</option>
+        <option value="2">Level 2</option>
+        <option value="3">Level 3</option>
+        <option value="4">Level 4</option>
+    </select>
+    <select id="game-pane-size" class="game-pane-size">
+        <option value="10">Size 10x10</option>
+        <option value="20">Size 20x20</option>
+        <option value="30" selected>Size 30x30</option>
+        <option value="40">Size 40x40</option>
+        <option value="50">Size 50x50</option>
+        <option value="70">Size 70x70</option>
+        <option value="99">Size 99x99</option>
+    </select>
+    <div id="saper-game-score">
+        <div id="saper-game-score-value"></div>
     </div>
-    <script src="index.js"></script>
+    <button id="saper-toolbar-action" class="saper-button saper-toolbar-action-type click-action-bomb-selected"
+            name="action-type">
+        <div class="click-action-flag">
+            <svg fill="red" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/>
+            </svg>
+        </div>
+        <div class="click-action-bomb">
+            <svg
+                    xmlns:dc="http://purl.org/dc/elements/1.1/"
+                    xmlns:cc="http://creativecommons.org/ns#"
+                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                    xmlns:svg="http://www.w3.org/2000/svg"
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    viewBox="0 0 24 24"
+                    enable-background="new 0 0 512 512"
+                    id="svg3773"
+                    width="24"
+                    height="24">
+                <g id="g3771"
+                   transform="matrix(0.046875,0,0,0.046875,1.3212454e-4,-0.01161278)">
+                    <path d="m 411.313,123.313 c 6.25,-6.25 6.25,-16.375 0,-22.625 -6.25,-6.25 -16.375,-6.25 -22.625,0 l -32,32 -9.375,9.375 -20.688,-20.688 c -12.484,-12.5 -32.766,-12.5 -45.25,0 l -16,16 c -1.261,1.261 -2.304,2.648 -3.31,4.051 C 240.326,132.865 216.741,128 192,128 86.133,128 0,214.133 0,320 c 0,105.867 86.133,192 192,192 105.867,0 192,-86.133 192,-192 0,-24.741 -4.864,-48.327 -13.426,-70.065 1.402,-1.007 2.79,-2.049 4.051,-3.31 l 16,-16 c 12.5,-12.492 12.5,-32.758 0,-45.25 l -20.688,-20.688 9.375,-9.375 z M 192,224 c -52.938,0 -96,43.063 -96,96 0,8.836 -7.164,16 -16,16 -8.836,0 -16,-7.164 -16,-16 0,-70.578 57.422,-128 128,-128 8.836,0 16,7.164 16,16 0,8.836 -7.164,16 -16,16 z"
+                          id="path3759"/>
+                    <path d="m 459.02,148.98 c -6.25,-6.25 -16.375,-6.25 -22.625,0 -6.25,6.25 -6.25,16.375 0,22.625 l 16,16 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 6.25,-6.25 6.25,-16.375 0,-22.625 z"
+                          id="path3761"/>
+                    <path d="m 340.395,75.605 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 6.25,-6.25 6.25,-16.375 0,-22.625 l -16,-16 c -6.25,-6.25 -16.375,-6.25 -22.625,0 -6.25,6.25 -6.25,16.375 0,22.625 z"
+                          id="path3763"/>
+                    <path d="m 400,64 c 8.844,0 16,-7.164 16,-16 V 16 C 416,7.164 408.844,0 400,0 391.156,0 384,7.164 384,16 v 32 c 0,8.836 7.156,16 16,16 z"
+                          id="path3765"/>
+                    <path d="m 496,96.586 h -32 c -8.844,0 -16,7.164 -16,16 0,8.836 7.156,16 16,16 h 32 c 8.844,0 16,-7.164 16,-16 0,-8.836 -7.156,-16 -16,-16 z"
+                          id="path3767"/>
+                    <path d="m 436.98,75.605 c 3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188,-1.563 11.313,-4.688 l 32,-32 c 6.25,-6.25 6.25,-16.375 0,-22.625 -6.25,-6.25 -16.375,-6.25 -22.625,0 l -32,32 c -6.251,6.25 -6.251,16.375 -10e-4,22.625 z"
+                          id="path3769"/>
+                </g>
+            </svg>
+
+        </div>
+    </button>
+</div>
+<script src="index.js"></script>
 </body>
 </html>
