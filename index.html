@@ -119,19 +119,6 @@
         #saper-game-score {
         }
 
-        #saper-game-score-value {
-            width: 80px;
-            height: 40px;
-            float: left;
-            margin: 10px;
-            border-bottom: 2px solid #ECB14B;
-            line-height: 40px;
-            text-align: center;
-            font-size: 2em;
-            color: #414141;
-            font-family: Helvetica;
-        }
-
         .click-action-flag,
         .click-action-bomb {
             float: left;
@@ -199,20 +186,75 @@
         .vertical-delimiter {
             float: left;
         }
+
+        #saper-game-score-value {
+            width: 80px;
+            height: 40px;
+            float: left;
+            margin: 10px;
+            border-bottom: 2px solid #ECB14B;
+            line-height: 40px;
+            text-align: center;
+            font-size: 2em;
+            color: #414141;
+            font-family: Helvetica;
+        }
+
+        #saper-game-time {
+            width: 80px;
+            height: 40px;
+            float: right;
+            margin: 10px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 2em;
+            color: #414141;
+            font-family: Helvetica;
+        }
+
+        #saper-game-score-flag {
+            display: none;
+        }
         @media(max-width: 960px) {
             #saper-game-pane {
                 margin: 0 0 50px 0;
             }
-            #saper-game-score {
+            #saper-game-dynamic-inputs {
                 position: fixed;
                 bottom: 0;
                 width: 100%;
                 background-color: #17A086;
                 padding: 5px;
+                box-sizing: border-box;
             }
             #saper-game-score-value {
-                margin: 0 auto;
-                float: none;
+                border: none;
+                width: initial;
+                height: initial;
+                line-height: 40px;
+                text-align: center;
+                position: relative;
+                left: 0;
+                margin: 0 20px 0 30px;
+                float: left;
+            }
+            #saper-game-time {
+                font-family: Helvetica;
+                font-size: 2em;
+                color: #414141;
+                position: relative;
+                right: 0;
+                top: 0;
+                margin: 0 20px;
+                float: right;
+            }
+            #saper-game-score-flag {
+                display: block;
+                position: absolute;
+                margin: 10px 5px;
+            }
+            #saper-game-score-flag svg {
+                fill: #414141;
             }
         }
     </style>
@@ -248,8 +290,15 @@
         <option value="70">Size 70x70</option>
         <option value="99">Size 99x99</option>
     </select>
-    <div id="saper-game-score">
+    <div id="saper-game-dynamic-inputs">
+        <div id="saper-game-score-flag">
+            <svg fill="red" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/>
+            </svg>
+        </div>
         <div id="saper-game-score-value"></div>
+        <div id="saper-game-time"></div>
     </div>
     <button id="saper-toolbar-action" class="saper-button saper-toolbar-action-type click-action-bomb-selected"
             name="action-type">

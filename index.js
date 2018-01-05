@@ -16,6 +16,8 @@
     var clickAction = 'bomb';
     var scoreLabel = document.getElementById('saper-game-score-value');
     var actionButton = document.getElementById('saper-toolbar-action');
+    var timer = document.getElementById('saper-game-time');
+    var gameTimer;
     var gameScore = 0;
     var gameLevel = 1;
     var maxGameLevel = 4;
@@ -50,6 +52,22 @@
         }
         table += '</table>';
         document.getElementById('saper-game-pane').innerHTML = table;
+    }
+
+    function renderTimer() {
+        var time = Date.now();
+        function setTime() {
+            var delta = Date.now() - time;
+            var min = Math.floor(delta / (1000 * 60));
+            var sec = Math.floor(delta / 1000) % 60;
+            timer.innerHTML =
+                (min < 10 ? '0' + min : min)
+                    + ':' +
+                (sec < 10 ? '0' + sec : sec);
+        }
+        clearInterval(gameTimer);
+        gameTimer = setInterval(setTime, 1000);
+        setTime();
     }
 
     function initializeData(width, height) {
@@ -365,6 +383,7 @@
         gameScore = 0;
         gameData = initializeData(xSize, ySize);
         renderGamePane(gameData);
+        renderTimer();
         updateScore(gameScore);
     }
 
