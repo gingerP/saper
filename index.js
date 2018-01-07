@@ -21,6 +21,11 @@
     var gameScore = 0;
     var gameLevel = 1;
     var maxGameLevel = 4;
+    var openedCellsCount = 0;
+    var successFinishLabels = [
+        'You are well done',
+        'Excellent work'
+    ];
 
     var flag = '\
         <svg fill="red" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">\
@@ -61,9 +66,9 @@
             var min = Math.floor(delta / (1000 * 60));
             var sec = Math.floor(delta / 1000) % 60;
             timer.innerHTML =
-                (min < 10 ? '0' + min : min)
+                (min < 10 ? '<span class="label-zero">0</span>' + min : min)
                     + ':' +
-                (sec < 10 ? '0' + sec : sec);
+                (sec < 10 ? '<span class="label-zero">0</span>' + sec : sec);
         }
         clearInterval(gameTimer);
         gameTimer = setInterval(setTime, 1000);
@@ -158,21 +163,22 @@
             if (isGameFailed) {
                 return;
             }
-            if (isBombClickAction()) {
-                isGameStarted = true;
-                target = searchCell(event.target);
-                item = getItemForCellId(target.id);
-                if (item.isFlag) {
-                    updateScore(--gameScore);
-                }
-                if (target && !hasClass(target, 'cell-open')) {
-                    var pos = getPosForCellId(target.id);
-                    openCell(gameData, pos[0], pos[1], true, true);
-                }
-            } else if (isFlagClickAction()) {
-                isGameStarted = true;
-                target = searchCell(event.target);
-                if (target) {
+            target = searchCell(event.target);
+            if (target) {
+                if (isBombClickAction()) {
+                    isGameStarted = true;
+                    item = getItemForCellId(target.id);
+                    if (item.isFlag) {
+                        updateScore(--gameScore);
+                    }
+                    if (target && !hasClass(target, 'cell-open')) {
+                        var pos = getPosForCellId(target.id);
+                        openCell(gameData, pos[0], pos[1], true, true, function () {
+                            console.info('open cell');
+                        });
+                    }
+                } else if (isFlagClickAction()) {
+                    isGameStarted = true;
                     setFlag(target, getItemForCellId(target.id));
                     event.preventDefault();
                 }
@@ -232,15 +238,16 @@
         });
     }
 
-    function openCell(data, x, y, shouldOpenAround, isFirstBomb) {
+    function openCell(data, x, y, shouldOpenAround, isFirstBomb, callback) {
         var item = data[x][y];
         var cell = document.getElementById('cell-' + x + '-' + y);
         removeClass(cell, 'cell-closed');
         addClass(cell, 'cell-opened');
         item.isOpened = true;
+        openedCellsCount++;
         if (item && item.isBomb) {
             isGameFailed = true;
-            openBomb(data, x, y, cell, isFirstBomb);
+            openBomb(data, x, y, cell, isFirstBomb, callback);
         } else if (item && !item.isBomb) {
             if (item.value !== 0) {
                 cell.innerHTML = item.value;
@@ -248,7 +255,9 @@
             }
             if (shouldOpenAround && item.value === 0) {
                 var blankLake = getBlankLake(data, x, y);
-                openLake(blankLake, data);
+                openLake(blankLake, data, callback);
+            } else {
+                callback();
             }
         }
     }
@@ -283,10 +292,16 @@
         target.className = result;
     }
 
-    function openLake(items, data) {
+    function openLake(items, data, callback) {
+        var responeCount = 0;
         for (var index = 0; index < items.length; index++) {
             var item = items[index];
-            openCell(data, item[0], item[1], false);
+            openCell(data, item[0], item[1], false, false, function() {
+                responeCount++;
+                if (responeCount === items.length - 1) {
+                    callback();
+                }
+            });
         }
     }
 
@@ -315,11 +330,13 @@
         return result;
     }
 
-    function openBomb(data, x, y, target, isFirst) {
+    function openBomb(data, x, y, target, isFirst, callback) {
         target.innerHTML = bomb;
         if (isFirst) {
             addClass(target, 'cell-first-bomb');
-            openPane(data);
+            openPane(data, callback);
+        } else {
+            callback();
         }
     }
 
@@ -341,14 +358,20 @@
         }
     }
 
-    function openPane(data) {
+    function openPane(data, callback) {
+        var xMax = data.length - 1;
+        var yMax = data[0].length - 1;
         for(var xIndex = 0; xIndex < data.length; xIndex++) {
             for(var yIndex = 0; yIndex < data[xIndex].length; yIndex++) {
                 (function() {
                     var x = xIndex;
                     var y = yIndex;
                     setTimeout(function() {
-                        openCell(data, x, y, false, false);
+                        openCell(data, x, y, false, false, function() {
+                            if (x === xMax && y === yMax) {
+                                callback();
+                            }
+                        });
                     }, 0);
                 })();
             }
@@ -380,6 +403,7 @@
     function reload() {
         isGameStarted = false;
         isGameFailed = false;
+        openedCellsCount = 0;
         gameScore = 0;
         gameData = initializeData(xSize, ySize);
         renderGamePane(gameData);
@@ -414,6 +438,15 @@
 
     function isFlagClickAction() {
         return clickAction === clickActions.flag;
+    }
+
+    function isGameFinishedSuccessfully() {
+        return openedCellsCount === xSize * ySize;
+    }
+
+    function gameFinishedSuccessfully() {
+        alert(successFinishLabels[Math.round(Math.random() * 2)]);
+        reload();
     }
 
     reload();
